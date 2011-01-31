@@ -9,7 +9,7 @@ use 5.010;
 use IO::Socket::INET::Daemon;
 use Moose;
 
-extends 'Artemis::Base';
+extends 'Tapper::Base';
 
 use Artemis::Config;
 use Artemis::Model 'model';

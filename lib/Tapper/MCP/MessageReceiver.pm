@@ -7,7 +7,7 @@ use Moose;
 use YAML::Syck;
 
 
-extends 'Artemis::Base';
+extends 'Tapper::Base';
 use Artemis::Config;
 use Artemis::Model 'model';
 
