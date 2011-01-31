@@ -1,0 +1,10 @@
+Tapper-MessageReceiver
+
+This project contains the message receiver of Tapper. This message
+receiver is responsible for getting messages (especially about state
+changes) from remote systems and put them into a database where the
+Tapper MCP can find them. 
+
+Developers note: Please keep this project small, well tested and as
+stable as possible.the message receiver is the weak spot for a
+persistent Tapper MCP and should therefore stay as strong as possible.

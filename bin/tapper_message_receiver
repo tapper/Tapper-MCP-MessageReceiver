@@ -1,0 +1,21 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+
+use 5.010;
+
+use Tapper::MessageReceiver;
+
+my $pid = fork();
+die "Can not fork:$!" if not defined $pid;
+
+$SIG{CHLD} = 'IGNORE';
+
+if ($pid == 0) {
+        my $serv = Tapper::MessageReceiver->new;
+        $serv->run();
+        exit;
+} else {
+}
+
