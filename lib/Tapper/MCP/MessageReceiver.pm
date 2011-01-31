@@ -1,139 +1,138 @@
 package Tapper::MCP::MessageReceiver;
 
-use warnings;
-use strict;
-use English '-no_match_vars';
-use 5.010;
-
-
-use IO::Socket::INET::Daemon;
+use AnyEvent::Socket;
+use EV;
+use IO::Handle;
 use Moose;
-
-extends 'Artemis::Base';
-
-use Artemis::Config;
-use Artemis::Model 'model';
 use YAML::Syck;
 
-our $data;
+
+extends 'Artemis::Base';
+use Artemis::Config;
+use Artemis::Model 'model';
+
+with qw(MooseX::Daemonize);
+
+use warnings;
+use strict;
 
 =head1 NAME
 
-Tapper::MessageReceiver - Message receiver for Tapper!
+Tapper::MCP::MessageReceiver - Message receiver for Tapper MCP.
 
 =cut
 
-our $VERSION = '1.000001';
-
+our $VERSION = '1.000.001';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
 
-Perhaps a little code snippet.
+    use Tapper::MCP::MessageReceiver;
 
-    use Tapper::MessageReceiver;
-
-    my $foo = Tapper::MessageReceiver->new();
-    $foo->run;
-
+    my $daemon = Tapper::MCP::MessageReceiver->new_with_options(pidfile=>'/tmp/pid');
+    $daemon->run;
 
 =cut
 
-sub add{
-        my $io = shift;
-        if ($data->{$io->peerhost}) {
-                say STDERR $io->peerhost, " is already connected";
-                return;
-        }
-        $data->{$io->peerhost} = '';
-        return 1;
-}
+=head1 METHODS
 
-sub data{
-        my ($io, $host) = @_;
+=head2 
 
-        if (my $new_data = $io->getline) {
-                $data->{$io->peerhost} .= $new_data;
-                return 1;
-        } else {
-                return;
-        }
-}
+=cut
 
-sub remove{
-        my $io = shift;
-        my $yaml = YAML::Syck::Load($data->{$io->peerhost});
-        if ($yaml->{testrun} or $yaml->{testrun_id}) {
-                my $tr_id = $yaml->{testrun} // $yaml->{testrun_id};
-                my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $tr_id,
-                                                                        message => $yaml});
-                $db->insert;
-        }
-        delete $data->{$io->peerhost};
-}
+use 5.010;
 
+after start => sub {
+        my ($self) = @_;
 
-=head1 FUNCTIONS
+        return unless $self->is_daemon;
+        my $port = Artemis::Config::subconfig->{mcp_port} || 1337;
+        tcp_server undef, $port, sub {
+                my ($fh, $host, $port) = @_;
+                return unless $fh;
+                my $condvar = AnyEvent->condvar;
 
+                my $message;
+                my $read_watcher; 
+                $read_watcher = AnyEvent->io
+                  (
+                   fh   => $fh,
+                   poll => 'r',
+                   cb   => sub{
+                           my $received_bytes = sysread $fh, $message, 1024, length $message;
+                           if ($received_bytes <= 0) {
+                                   undef $read_watcher;
+                                   $condvar->send($message);
+                           }
+                   }
+                  );
+                my $data = $condvar->recv;
+                my $yaml = YAML::Syck::Load($data);
+                if ($yaml->{testrun} or $yaml->{testrun_id}) {
+                        my $tr_id = $yaml->{testrun} // $yaml->{testrun_id};
+                        my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $tr_id,
+                                                                                message => $yaml});
+                        $db->insert;
+                } else {
+                        $self->log->error("Received message '$data' from '$host' without testrun ID. ".
+                                          "Calculating testrun IDs from host names is not yet supported.");
+                }
+        };
+        EV::loop;
+
+};
 
 =head2 run
 
-Start the server.
+Handle daemon operations.
+
+@return undef
 
 =cut
 
 sub run
 {
         my ($self) = @_;
+        my ($command) = @{$self->extra_argv};
+        defined $command || die "No command specified";
 
-        my $dir = Artemis::Config::subconfig->{paths}{message_receiver_path};
-        my $retval = $self->makedir($dir);
-        my $pidfile = "$dir/pidfile";
-        open my $fh, ">", $pidfile or die "Can not open '$pidfile':$!";
-        print $fh $PID;
-        close $fh;
+        $self->start   if $command eq 'start';
+        $self->status  if $command eq 'status';
+        $self->restart if $command eq 'restart';
+        $self->stop    if $command eq 'stop';
 
-        open (STDOUT, ">>", "$dir/output.stdout") or print(STDERR "Can't open output file $dir/output.stdout: $!"),exit 1;
-        open (STDERR, ">>", "$dir/output.stderr") or print(STDERR "Can't open output file $dir/output.stderr: $!"),exit 1;
-
-
-
-        my $host = IO::Socket::INET::Daemon->new(
-                port =>  Artemis::Config::subconfig->{mcp_port},
-                callback => {
-                        add => \&add,
-                        remove => \&remove,
-                        data => \&data,
-                },
-        );
-        $host->run;
-
+        return;
 }
-
 
 
 =head1 AUTHOR
 
 OSRC SysInt Team, C<< <osrc-sysint at elbe.amd.com> >>
 
+
+
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Tapper::MessageReceiver
+    perldoc Tapper::MCP::MessageReceiver
+
+
 
 =head1 ACKNOWLEDGEMENTS
 
 
-=head1 COPYRIGHT & LICENSE
+=head1 LICENSE AND COPYRIGHT
 
-Copyright 2011 OSRC SysInt Team, all rights reserved.
+Copyright 2011 OSRC SysInt Team.
 
 This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.
 
 
 =cut
 
-1; # End of Tapper::MessageReceiver
+1; # End of Tapper::MCP::MessageReceiver

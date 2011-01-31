@@ -1,0 +1,11 @@
+#!/usr/bin/env perl
+
+use Tapper::MCP::MessageReceiver;
+
+
+my $daemon = Tapper::MCP::MessageReceiver->new_with_options(pidfile=>'/tmp/pid');
+
+$daemon->run();
+
+warn($daemon->status_message);
+exit($daemon->exit_code);
