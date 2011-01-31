@@ -10,14 +10,14 @@ use Test::More;
 use YAML::Syck;
 use Artemis::Model 'model';
 
-use Tapper::MessageReceiver;
+use Tapper::MCP::MessageReceiver;
 
 my $pid = fork();
 die "Can not fork:$!" if not defined $pid;
 
 
 if ($pid == 0) {
-        my $serv = Tapper::MessageReceiver->new;
+        my $serv = Tapper::MCP::MessageReceiver->new;
         $serv->run();
         exit;
 } else {

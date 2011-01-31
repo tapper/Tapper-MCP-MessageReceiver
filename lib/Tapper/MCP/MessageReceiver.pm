@@ -1,4 +1,4 @@
-package Tapper::MessageReceiver;
+package Tapper::MCP::MessageReceiver;
 
 use warnings;
 use strict;

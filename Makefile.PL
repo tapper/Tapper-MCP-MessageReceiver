@@ -1,7 +1,7 @@
 use inc::Module::Install;
 
-name     'Tapper-MessageReceiver';
-all_from 'lib/Tapper/MessageReceiver.pm';
+name     'Tapper-MCP-MessageReceiver';
+all_from 'lib/Tapper/MCP/MessageReceiver.pm';
 author   'OSRC SysInt Team <osrc-sysint@elbe.amd.com>';
 license  'perl';
 
