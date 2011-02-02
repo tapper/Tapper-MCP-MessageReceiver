@@ -8,8 +8,8 @@ use YAML::Syck;
 
 
 extends 'Tapper::Base';
-use Artemis::Config;
-use Artemis::Model 'model';
+use Tapper::Config;
+use Tapper::Model 'model';
 
 with qw(MooseX::Daemonize);
 
@@ -46,7 +46,7 @@ after start => sub {
         my ($self) = @_;
 
         return unless $self->is_daemon;
-        my $port = Artemis::Config::subconfig->{mcp_port} || 1337;
+        my $port = Tapper::Config::subconfig->{mcp_port} || 1337;
         tcp_server undef, $port, sub {
                 my ($fh, $host, $port) = @_;
                 return unless $fh;

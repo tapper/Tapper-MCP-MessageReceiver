@@ -8,8 +8,8 @@ license  'perl';
 build_requires 'Test::More';
 build_requires 'IO::Socket::INET';
 
-requires 'Artemis::Model' => '2.010020';
-requires 'Artemis::Config' => '2.010076';
+requires 'Tapper::Model' => '2.010020';
+requires 'Tapper::Config' => '2.010076';
 requires 'YAML::Syck' => 0;
 requires 'AnyEvent';
 requires 'EV';

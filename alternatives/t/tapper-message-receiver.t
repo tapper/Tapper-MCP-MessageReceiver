@@ -3,12 +3,12 @@
 use warnings;
 use strict;
 
-use Artemis::Config;
+use Tapper::Config;
 
 use IO::Socket::INET;
 use Test::More;
 use YAML::Syck;
-use Artemis::Model 'model';
+use Tapper::Model 'model';
 
 use Tapper::MCP::MessageReceiver;
 
@@ -23,7 +23,7 @@ if ($pid == 0) {
 } else {
         sleep 1; # give time for server to start
         my $sender = IO::Socket::INET->new(PeerAddr => 'localhost',
-                                           PeerPort => Artemis::Config::subconfig->{mcp_port},
+                                           PeerPort => Tapper::Config::subconfig->{mcp_port},
                                            
                                           );
         die "No connection to server" unless $sender;

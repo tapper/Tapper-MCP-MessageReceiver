@@ -3,12 +3,12 @@
 use warnings;
 use strict;
 
-use Artemis::Config;
+use Tapper::Config;
 
 use IO::Socket::INET;
 use Test::More;
 use YAML::Syck;
-use Artemis::Model 'model';
+use Tapper::Model 'model';
 
 use Tapper::MCP::MessageReceiver;
 
@@ -29,7 +29,7 @@ sleep 2;
 # eval makes sure the server is stopped at the end. Please leave it intakt
 eval {
         my $sender = IO::Socket::INET->new(PeerAddr => 'localhost',
-                                           PeerPort => Artemis::Config::subconfig->{mcp_port},
+                                           PeerPort => Tapper::Config::subconfig->{mcp_port},
                                           );
         ok(($sender and $sender->connected), 'Connected to server');
         $sender->say(YAML::Syck::Dump({testrun_id => 4, state => 'start_install'}));

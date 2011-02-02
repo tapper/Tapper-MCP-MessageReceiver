@@ -11,8 +11,8 @@ use Moose;
 
 extends 'Tapper::Base';
 
-use Artemis::Config;
-use Artemis::Model 'model';
+use Tapper::Config;
+use Tapper::Model 'model';
 use YAML::Syck;
 
 our $data;
@@ -87,7 +87,7 @@ sub run
 {
         my ($self) = @_;
 
-        my $dir = Artemis::Config::subconfig->{paths}{message_receiver_path};
+        my $dir = Tapper::Config::subconfig->{paths}{message_receiver_path};
         my $retval = $self->makedir($dir);
         my $pidfile = "$dir/pidfile";
         open my $fh, ">", $pidfile or die "Can not open '$pidfile':$!";
@@ -100,7 +100,7 @@ sub run
 
 
         my $host = IO::Socket::INET::Daemon->new(
-                port =>  Artemis::Config::subconfig->{mcp_port},
+                port =>  Tapper::Config::subconfig->{mcp_port},
                 callback => {
                         add => \&add,
                         remove => \&remove,
