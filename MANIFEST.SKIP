@@ -6,6 +6,8 @@
 \B\.cvsignore$
 \B\.gitignore$
 t/.+\.sqlite
+^.git
+
 # Avoid Makemaker generated and utility files.
 \bMakefile$
 \bblib
