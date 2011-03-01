@@ -2,7 +2,7 @@ use inc::Module::Install;
 
 name     'Tapper-MCP-MessageReceiver';
 all_from 'lib/Tapper/MCP/MessageReceiver.pm';
-author   'AMD OSRC Tapper Team <tapper@amd64.com>';
+author   'AMD OSRC Tapper Team <tapper@amd64.org>';
 license  'perl';
 
 build_requires 'Test::More';
