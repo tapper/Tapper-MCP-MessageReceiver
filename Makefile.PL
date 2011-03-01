@@ -10,9 +10,9 @@ build_requires 'IO::Socket::INET';
 
 author_requires 'Module::Install::WriteAll';
 
-requires 'Tapper::Model' => '2.010020';
-requires 'Tapper::Config' => '2.010076';
-requires 'YAML::Syck' => 0;
+requires 'Tapper::Model'  => "3.000001";
+requires 'Tapper::Config' => "3.000001";
+requires 'YAML::Syck'     => 0;
 requires 'AnyEvent';
 requires 'EV';
 
