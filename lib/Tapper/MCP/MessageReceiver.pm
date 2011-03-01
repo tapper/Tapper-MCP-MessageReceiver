@@ -18,7 +18,7 @@ use strict;
 
 =head1 NAME
 
-Tapper::MCP::MessageReceiver - Message receiver for Tapper MCP.
+Tapper::MCP::MessageReceiver - Tapper - Message receiver for Tapper MCP
 
 =cut
 
