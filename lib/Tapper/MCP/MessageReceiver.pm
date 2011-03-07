@@ -126,11 +126,7 @@ You can find documentation for this module with the perldoc command.
 
 Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See http://dev.perl.org/licenses/ for more information.
+This program is released under the following license: freebsd
 
 
 =cut
