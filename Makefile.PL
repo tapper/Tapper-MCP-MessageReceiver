@@ -15,7 +15,7 @@ author_requires 'Module::Install::WriteAll';
 
 requires 'Tapper::Model'  => "3.000001";
 requires 'Tapper::Config' => "3.000001";
-requires 'YAML::Syck'     => 0;
+requires 'YAML::Syck'     => "1.17";
 requires 'AnyEvent';
 requires 'EV';
 
