@@ -13,8 +13,8 @@ build_requires 'IO::Socket::INET';
 
 author_requires 'Module::Install::WriteAll';
 
-requires 'Tapper::Model'  => "3.000001";
-requires 'Tapper::Config' => "3.000001";
+requires 'Tapper::Model'  => "3.000002";
+requires 'Tapper::Config' => "3.000002";
 requires 'YAML::Syck'     => "1.17";
 requires 'AnyEvent';
 requires 'EV';
