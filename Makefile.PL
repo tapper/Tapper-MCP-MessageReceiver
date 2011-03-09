@@ -15,6 +15,9 @@ author_requires 'Module::Install::WriteAll';
 
 requires 'Tapper::Model'  => "3.000002";
 requires 'Tapper::Config' => "3.000002";
+requires 'Tapper::Base'   => "3.000002";
+requires 'MooseX::Daemonize' => "0.12";
+requires 'Moose'          => "1.24";
 requires 'YAML::Syck'     => "1.17";
 requires 'AnyEvent';
 requires 'EV';
