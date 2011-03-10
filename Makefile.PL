@@ -24,6 +24,9 @@ requires 'EV';
 
 install_script glob('bin/*');
 
+repository 'git://github.com/amd/Tapper-MCP-MessageReceiver.git';
+bugtracker 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-MCP-MessageReceiver';
+
 auto_install;
 
 WriteAll;
