@@ -3,7 +3,7 @@
 use Tapper::MCP::MessageReceiver;
 
 
-my $daemon = Tapper::MCP::MessageReceiver->new_with_options(pidfile=>'/tmp/pid');
+my $daemon = Tapper::MCP::MessageReceiver->new_with_options(pidfile=> $ENV{TAPPER_MSG_RECEIVER_PIDFILE} || '/tmp/tapper_msg_receiver_pidfile');
 
 $daemon->run();
 
