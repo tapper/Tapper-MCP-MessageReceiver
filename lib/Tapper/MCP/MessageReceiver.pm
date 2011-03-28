@@ -17,11 +17,11 @@ use strict;
 
 =head1 NAME
 
-Tapper::MCP::MessageReceiver - Message receiver for Tapper MCP.
+Tapper::MCP::MessageReceiver - Tapper - Message receiver for Tapper MCP
 
 =cut
 
-our $VERSION = '1.000.001';
+our $VERSION = '3.000004';
 
 =head1 SYNOPSIS
 
@@ -87,7 +87,7 @@ sub run {
 
 =head1 AUTHOR
 
-OSRC SysInt Team, C<< <osrc-sysint at elbe.amd.com> >>
+AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
 
 
 
@@ -104,13 +104,9 @@ You can find documentation for this module with the perldoc command.
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2011 OSRC SysInt Team.
+Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See http://dev.perl.org/licenses/ for more information.
+This program is released under the following license: freebsd
 
 
 =cut

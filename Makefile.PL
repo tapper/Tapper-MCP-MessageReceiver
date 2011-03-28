@@ -1,20 +1,31 @@
+use strict;
+use warnings;
+
 use inc::Module::Install;
 
 name     'Tapper-MCP-MessageReceiver';
 all_from 'lib/Tapper/MCP/MessageReceiver.pm';
-author   'OSRC SysInt Team <osrc-sysint@elbe.amd.com>';
+author   'AMD OSRC Tapper Team <tapper@amd64.org>';
 license  'perl';
 
 build_requires 'Test::More';
 build_requires 'IO::Socket::INET';
 
-requires 'Tapper::Model' => '2.010020';
-requires 'Tapper::Config' => '2.010076';
-requires 'YAML::Syck' => 0;
+author_requires 'Module::Install::WriteAll';
+
+requires 'Tapper::Model'     => "3.000002";
+requires 'Tapper::Config'    => "3.000002";
+requires 'Tapper::Base'      => "3.000002";
+requires 'MooseX::Daemonize' => "0.12";
+requires 'Moose'             => "1.24";
+requires 'YAML::Syck'        => "1.17";
 requires 'AnyEvent';
 requires 'EV';
 
 install_script glob('bin/*');
+
+repository 'git://github.com/amd/Tapper-MCP-MessageReceiver.git';
+bugtracker 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-MCP-MessageReceiver';
 
 auto_install;
 

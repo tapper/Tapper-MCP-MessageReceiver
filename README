@@ -1,10 +1,33 @@
-Tapper-MessageReceiver
+Tapper-MCP-MessageReceiver
+==========================
 
-This project contains the message receiver of Tapper. This message
-receiver is responsible for getting messages (especially about state
-changes) from remote systems and put them into a database where the
-Tapper MCP can find them. 
+Message receiver for Tapper MCP
 
-Developers note: Please keep this project small, well tested and as
-stable as possible.the message receiver is the weak spot for a
-persistent Tapper MCP and should therefore stay as strong as possible.
+
+About Tapper 
+============
+
+Tapper is an infrastructure for all aspects of testing 
+inclusive Operating Systems and Virtualization.
+
+Tapper contains
+
+ - Automation
+ - Machine Scheduling
+ - Command line utils
+ - Web Frontend application
+ - Support for writing tests
+ - Powerful result evaluation API
+ - Testplan support with TaskJuggler
+ - Many use-cases from tracking test results to
+   benchmarking to full OS testing including virtualization
+
+More information about Tapper:
+
+ - https://github.com/amd/Tapper-Doc/
+ - http://search.cpan.org/~amd/Tapper-Doc/
+
+Other Tapper subprojects:
+
+ - https://github.com/amd
+ - http://search.cpan.org/~amd

@@ -19,7 +19,7 @@ our $data;
 
 =head1 NAME
 
-Tapper::MessageReceiver - Message receiver for Tapper!
+Tapper::MCP::MessageReceiver - Message receiver for Tapper!
 
 =cut
 
@@ -32,9 +32,9 @@ Quick summary of what the module does.
 
 Perhaps a little code snippet.
 
-    use Tapper::MessageReceiver;
+    use Tapper::MCP::MessageReceiver;
 
-    my $foo = Tapper::MessageReceiver->new();
+    my $foo = Tapper::MCP::MessageReceiver->new();
     $foo->run;
 
 
@@ -115,25 +115,23 @@ sub run
 
 =head1 AUTHOR
 
-OSRC SysInt Team, C<< <osrc-sysint at elbe.amd.com> >>
+AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
 
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Tapper::MessageReceiver
+    perldoc Tapper::MCP::MessageReceiver
 
 =head1 ACKNOWLEDGEMENTS
 
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2011 OSRC SysInt Team, all rights reserved.
+Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
+This program is released under the following license: freebsd
 
 =cut
 
-1; # End of Tapper::MessageReceiver
+1; # End of Tapper::MCP::MessageReceiver
