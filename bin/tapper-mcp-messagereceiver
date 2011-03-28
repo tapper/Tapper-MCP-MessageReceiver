@@ -1,11 +1,9 @@
 #! perl
 
 use Tapper::MCP::MessageReceiver;
+use App::Daemon qw(daemonize);
 
-
-my $daemon = Tapper::MCP::MessageReceiver->new_with_options(pidfile=>'/tmp/pid');
+my $daemon = Tapper::MCP::MessageReceiver->new;
+daemonize();
 
 $daemon->run();
-
-warn($daemon->status_message);
-exit($daemon->exit_code);

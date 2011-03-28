@@ -3,6 +3,7 @@ package Tapper::MCP::MessageReceiver;
 use AnyEvent::Socket;
 use EV;
 use IO::Handle;
+use Log::Log4perl;
 use Moose;
 use YAML::Syck;
 
@@ -10,8 +11,6 @@ use YAML::Syck;
 extends 'Tapper::Base';
 use Tapper::Config;
 use Tapper::Model 'model';
-
-with qw(MooseX::Daemonize);
 
 use warnings;
 use strict;
@@ -42,17 +41,19 @@ our $VERSION = '3.000005';
 
 use 5.010;
 
-after start => sub {
+sub run {
         my ($self) = @_;
+        Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
+        $self->log->info("Started daemon");
 
-        return unless $self->is_daemon;
         my $port = Tapper::Config::subconfig->{mcp_port} || 1337;
         tcp_server undef, $port, sub {
                 my ($fh, $host, $port) = @_;
+                $self->log->debug("here 1");
                 return unless $fh;
                 my $condvar = AnyEvent->condvar;
 
-                my $message;
+                my $message = '';
                 my $read_watcher; 
                 $read_watcher = AnyEvent->io
                   (
@@ -68,7 +69,7 @@ after start => sub {
                   );
                 my $data = $condvar->recv;
                 my $yaml = YAML::Syck::Load($data);
-                if ($yaml->{testrun} or $yaml->{testrun_id}) {
+                if ((ref $yaml eq 'HASH') and ($yaml->{testrun} or $yaml->{testrun_id})) {
                         my $tr_id = $yaml->{testrun} // $yaml->{testrun_id};
                         my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $tr_id,
                                                                                 message => $yaml});
@@ -80,29 +81,8 @@ after start => sub {
         };
         EV::loop;
 
-};
-
-=head2 run
-
-Handle daemon operations.
-
-@return undef
-
-=cut
-
-sub run
-{
-        my ($self) = @_;
-        my ($command) = @{$self->extra_argv};
-        defined $command || die "No command specified";
-
-        $self->start   if $command eq 'start';
-        $self->status  if $command eq 'status';
-        $self->restart if $command eq 'restart';
-        $self->stop    if $command eq 'stop';
-
-        return;
 }
+
 
 
 =head1 AUTHOR
