@@ -44,7 +44,7 @@ use 5.010;
 sub run {
         my ($self) = @_;
         Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
-        $self->log->info("Started daemon");
+        $self->log->info("Started MessageReceiver daemon");
 
         my $port = Tapper::Config::subconfig->{mcp_port} || 1337;
         tcp_server undef, $port, sub {
