@@ -49,7 +49,6 @@ sub run {
         my $port = Tapper::Config::subconfig->{mcp_port} || 1337;
         tcp_server undef, $port, sub {
                 my ($fh, $host, $port) = @_;
-                $self->log->debug("here 1");
                 return unless $fh;
                 my $condvar = AnyEvent->condvar;
 
