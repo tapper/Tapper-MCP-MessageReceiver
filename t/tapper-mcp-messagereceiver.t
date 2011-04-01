@@ -29,7 +29,7 @@ is($status_hash->{Running}, 'yes', 'Daemon started');
 {
         no warnings;
         # give server time to settle
-        sleep $ENV{TAPPER_SLEEPTIME} || 10;
+        sleep ($ENV{TAPPER_SLEEPTIME} || 10);
 }
 
 
@@ -43,7 +43,7 @@ eval {
         {
                 no warnings;
                 # give server time to do his work
-                sleep $ENV{TAPPER_SLEEPTIME} || 10;
+                sleep( $ENV{TAPPER_SLEEPTIME} || 10);
         }
         my $messages = model('TestrunDB')->resultset('Message')->search({testrun_id => 4});
         is($messages->count, 1, 'One message for testrun 4 in DB');
