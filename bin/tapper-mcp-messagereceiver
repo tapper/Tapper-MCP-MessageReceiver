@@ -2,7 +2,10 @@
 
 use Tapper::MCP::MessageReceiver;
 use App::Daemon qw(daemonize);
+use English '-no_match_vars';
 
+
+$App::Daemon::as_user    = "$EUID";
 my $daemon = Tapper::MCP::MessageReceiver->new;
 daemonize();
 
