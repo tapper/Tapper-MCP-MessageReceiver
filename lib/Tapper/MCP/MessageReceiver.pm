@@ -21,7 +21,7 @@ Tapper::MCP::MessageReceiver - Tapper - Message receiver for Tapper MCP
 
 =cut
 
-our $VERSION = '3.000005';
+our $VERSION = '3.000010';
 
 =head1 SYNOPSIS
 
