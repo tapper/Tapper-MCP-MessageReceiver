@@ -1,12 +1,13 @@
-2011-03-30 Steffen Schwigon <steffen.schwigon@amd.com>
+2011-04-07  Steffen Schwigon  <steffen.schwigon@amd.com>
 
-	* v3.0.5
+	* v3.0.10
 
 	* rewritable shebang line
 	* Substitute MooseX::Daemonize with App::Daemon
 	* adapt tests to App::Daemon
 	* Increase timeout for tests on slow machines.
 	* pid file can be set by ENV variable
+	* release version++ roundhouse kick
 
 2011-03-10 Steffen Schwigon <steffen.schwigon@amd.com>
 
