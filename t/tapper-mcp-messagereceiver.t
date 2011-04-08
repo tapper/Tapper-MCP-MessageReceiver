@@ -9,11 +9,17 @@ use IO::Socket::INET;
 use Test::More;
 use YAML::Syck;
 use Tapper::Model 'model';
+use Test::Fixture::DBIC::Schema;
+use Tapper::Schema::TestTools;
 
 use Tapper::MCP::MessageReceiver;
 use English;
 
 use File::Temp qw/  tempdir /;
+
+construct_fixture( schema  => testrundb_schema,  fixture => 't/fixtures/testrundb/testrun_empty.yml' );
+
+
 
 my $dir = tempdir( CLEANUP => 1 );
 $ENV{TAPPER_MSG_RECEIVER_PIDFILE} = "$dir/pid";
