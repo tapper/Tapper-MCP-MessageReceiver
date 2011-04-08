@@ -46,6 +46,7 @@ eval {
                                           );
         ok(($sender and $sender->connected), 'Connected to server');
         $sender->say(YAML::Syck::Dump({testrun_id => 4, state => 'start_install'}));
+        $sender->close();
         {
                 no warnings;
                 # give server time to do his work
@@ -54,9 +55,10 @@ eval {
         my $messages = model('TestrunDB')->resultset('Message')->search({testrun_id => 4});
         is($messages->count, 1, 'One message for testrun 4 in DB');
         is_deeply($messages->first->message, {testrun_id => 4, state => 'start_install'}, 'Expected message in DB');
+        is($messages->first->type, , 'state', 'Expected status in DB');
 
 };
-
+fail($@) if $@;
 $status = qx($EXECUTABLE_NAME -Ilib bin/tapper-mcp-messagereceiver stop 2>&1);
 is($status, '', 'Daemon stopped without error');
 
