@@ -70,8 +70,10 @@ sub run {
                 my $yaml = YAML::Syck::Load($data);
                 if ((ref $yaml eq 'HASH') and ($yaml->{testrun} or $yaml->{testrun_id})) {
                         my $tr_id = $yaml->{testrun} // $yaml->{testrun_id};
+                        my $type  = $yaml->{type} || 'state';
                         my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $tr_id,
-                                                                                message => $yaml});
+                                                                                type       => $type,
+                                                                                message    => $yaml});
                         $db->insert;
                 } else {
                         $self->log->error("Received message '$data' from '$host' without testrun ID. ".
