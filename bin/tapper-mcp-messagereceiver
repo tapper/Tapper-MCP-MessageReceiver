@@ -7,11 +7,15 @@ use Tapper::Config;
 use Log::Log4perl;
 use 5.010;
 
+# bo into background
 use App::Daemon qw( daemonize );
 daemonize();
-Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
-my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
 
+# initialize logging
+Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
+
+# port where we accept messages
+my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
 
 get '/state/:state/(*optional)' => sub {
         my $self      = shift;
@@ -27,7 +31,7 @@ get '/state/:state/(*optional)' => sub {
         $self->render(text => '');
 };
 
-  # Start the Mojolicious command system
+# start the Mojolicious command system
 app->secret('Tapper::MCP::MessageReceiver');
 if (@ARGV) {
         app->start;
