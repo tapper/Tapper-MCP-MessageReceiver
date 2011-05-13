@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
- # Using Mojolicious::Lite will enable "strict" and "warnings"
+# Using Mojolicious::Lite will enable "strict" and "warnings"
 use Mojolicious::Lite;
 use Tapper::Model 'model';
 use Tapper::Config;
@@ -19,8 +19,6 @@ get '/state/:state/(*optional)' => sub {
                           state =>   $self->param('state')
                         );
         
-        # Steffen wants an API without underscores but I don't want to change the MCP API
-
         my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
                                                                 type       => 'state',
                                                                 message    => \%params});
