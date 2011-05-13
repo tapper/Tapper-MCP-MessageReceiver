@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#! /usr/bin/perl
 
 # Using Mojolicious::Lite will enable "strict" and "warnings"
 use Mojolicious::Lite;
