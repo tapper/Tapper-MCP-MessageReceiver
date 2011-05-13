@@ -1,12 +1,39 @@
-#! perl
+#!/usr/bin/env perl
 
-use Tapper::MCP::MessageReceiver;
-use App::Daemon qw(daemonize);
-use English '-no_match_vars';
+ # Using Mojolicious::Lite will enable "strict" and "warnings"
+use Mojolicious::Lite;
+use Tapper::Model 'model';
+use Tapper::Config;
+use Log::Log4perl;
+use 5.010;
 
-
-$App::Daemon::as_user    = "root";
-my $daemon = Tapper::MCP::MessageReceiver->new;
+use App::Daemon qw( daemonize );
 daemonize();
+Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
+my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
 
-$daemon->run();
+
+get '/state/:state/(*optional)' => sub {
+        my $self      = shift;
+        my %params    = ( split("/", $self->param('optional')), 
+                          state =>   $self->param('state')
+                        );
+        
+        # Steffen wants an API without underscores but I don't want to change the MCP API
+
+        my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
+                                                                type       => 'state',
+                                                                message    => \%params});
+
+        $db->insert;
+        $self->render(text => '');
+};
+
+  # Start the Mojolicious command system
+app->secret('Tapper::MCP::MessageReceiver');
+if (@ARGV) {
+        app->start;
+} else {
+        app->start("daemon", "--listen", "http://*:$port");      
+} 
+
