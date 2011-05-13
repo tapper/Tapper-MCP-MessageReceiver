@@ -18,8 +18,6 @@ get '/state/:state/(*optional)' => sub {
         my %params    = ( split("/", $self->param('optional')), 
                           state =>   $self->param('state')
                         );
-        
-        # Steffen wants an API without underscores but I don't want to change the MCP API
 
         my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
                                                                 type       => 'state',
