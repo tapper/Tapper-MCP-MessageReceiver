@@ -24,7 +24,8 @@ construct_fixture( schema  => testrundb_schema,  fixture => 't/fixtures/testrund
 my $dir = tempdir( CLEANUP => 1 );
 $ENV{TAPPER_MSG_RECEIVER_PIDFILE} = "$dir/pid";
 
-my $status = qx($EXECUTABLE_NAME -Ilib bin/tapper-mcp-messagereceiver start 2>&1);
+my $status;
+$status = qx($EXECUTABLE_NAME -Ilib bin/tapper-mcp-messagereceiver start 2>&1);
 is($status, '', 'Daemon start without error');
 
 $status    = qx($EXECUTABLE_NAME -Ilib bin/tapper-mcp-messagereceiver status 2>&1);
@@ -45,7 +46,7 @@ eval {
                                            PeerPort => Tapper::Config::subconfig->{mcp_port},
                                           );
         ok(($sender and $sender->connected), 'Connected to server');
-        $sender->say(YAML::Syck::Dump({testrun_id => 4, state => 'start_install'}));
+        $sender->say("GET /state/start_install/testrun_id/4/ HTTP/1.0\r\n\r\n");
         $sender->close();
         {
                 no warnings;
