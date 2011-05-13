@@ -18,7 +18,6 @@ requires 'Tapper::Schema' => "3.000012";
 requires 'Tapper::Model' => "3.000010";
 requires 'Tapper::Config' => "3.000010";
 requires 'Tapper::Base' => "3.000010";
-requires 'Moose'             => "1.24";
 requires 'YAML::Syck'        => "1.17";
 requires 'Mojolicious'       => "1.32";
 requires 'Log::Log4perl';

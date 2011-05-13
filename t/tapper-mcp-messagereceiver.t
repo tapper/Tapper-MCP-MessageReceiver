@@ -13,7 +13,7 @@ use Test::Fixture::DBIC::Schema;
 use Tapper::Schema::TestTools;
 
 use Tapper::MCP::MessageReceiver;
-use English;
+use English "-no_match_vars";
 
 use File::Temp qw/  tempdir /;
 
