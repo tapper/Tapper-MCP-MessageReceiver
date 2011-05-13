@@ -1,23 +1,24 @@
-#!/usr/bin/env perl
+#! /usr/bin/perl
 
- # Using Mojolicious::Lite will enable "strict" and "warnings"
+# Using Mojolicious::Lite will enable "strict" and "warnings"
 use Mojolicious::Lite;
 use Tapper::Model 'model';
 use Tapper::Config;
 use Log::Log4perl;
 use 5.010;
 
+# go into background
 use App::Daemon qw( daemonize );
 daemonize();
-Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
-my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
 
+# initialize logging
+Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
 
 get '/state/:state/(*optional)' => sub {
         my $self      = shift;
         my %params    = @{$self->tx->req->url->path->parts || []};
-
-        my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
+        
+my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
                                                                 type       => 'state',
                                                                 message    => \%params});
 
@@ -25,11 +26,11 @@ get '/state/:state/(*optional)' => sub {
         $self->render(text => '');
 };
 
-  # Start the Mojolicious command system
+# start the Mojolicious command system
+my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
 app->secret('Tapper::MCP::MessageReceiver');
 if (@ARGV) {
         app->start;
 } else {
-        app->start("daemon", "--listen", "http://*:$port");      
-} 
-
+        app->start("daemon", "--listen", "http://*:$port");
+}
