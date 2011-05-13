@@ -14,6 +14,7 @@ build_requires 'IO::Socket::INET';
 author_requires 'Module::Install::WriteAll';
 
 requires 'App::Daemon';
+requires 'Tapper::Schema' => "3.000012";
 requires 'Tapper::Model' => "3.000010";
 requires 'Tapper::Config' => "3.000010";
 requires 'Tapper::Base' => "3.000010";
