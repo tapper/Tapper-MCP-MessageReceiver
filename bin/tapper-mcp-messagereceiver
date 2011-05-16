@@ -18,8 +18,14 @@ Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
 get '/state/:state/(*optional)' => sub {
         my $self      = shift;
         my %params    = @{$self->tx->req->url->path->parts || []};
-        
-my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
+        my $headers   = $self->req->headers->to_hash;
+        foreach my $key (keys %{$headers || []}) {
+                if ($key =~ /X-Tapper-(.+)/) {
+                        $params($1) = $headers->{$key};
+                }
+        }
+
+        my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
                                                                 type       => 'state',
                                                                 message    => \%params});
 
