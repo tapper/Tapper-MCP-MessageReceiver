@@ -21,6 +21,7 @@ requires 'Tapper::Base' => "3.000010";
 requires 'YAML::Syck'        => "1.17";
 requires 'Mojolicious'       => "1.32";
 requires 'Log::Log4perl';
+requires 'Mojolicious::Lite';
 
 install_script glob('bin/*');
 
