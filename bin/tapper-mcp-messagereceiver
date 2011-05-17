@@ -21,7 +21,7 @@ get '/state/:state/(*optional)' => sub {
         my $headers   = $self->req->headers->to_hash;
         foreach my $key (keys %{$headers || []}) {
                 if ($key =~ /X-Tapper-(.+)/) {
-                        $params($1) = $headers->{$key};
+                        $params{$1} = $headers->{$key};
                 }
         }
 
