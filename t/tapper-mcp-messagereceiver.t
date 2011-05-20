@@ -60,6 +60,28 @@ eval {
 
 };
 fail($@) if $@;
+
+eval {
+        my $sender = IO::Socket::INET->new(PeerAddr => 'localhost',
+                                           PeerPort => Tapper::Config::subconfig->{mcp_port},
+                                          );
+        ok(($sender and $sender->connected), 'Connected to server');
+        $sender->say("GET /action/reset/host/bullock HTTP/1.0\r\n\r\n");
+        $sender->close();
+        {
+                no warnings;
+                # give server time to do his work
+                sleep( $ENV{TAPPER_SLEEPTIME} || 10);
+        }
+        my $messages = model('TestrunDB')->resultset('Message')->search({type => 'action'});
+        is($messages->count, 1, 'One message for type action in DB');
+        is_deeply($messages->first->message, {action => 'reset', host => 'bullock'}, 'Expected message in DB');
+        is($messages->first->type, , 'action', 'Expected status in DB');
+
+};
+fail($@) if $@;
+
+
 $status = qx($EXECUTABLE_NAME -Ilib bin/tapper-mcp-messagereceiver stop 2>&1);
 is($status, '', 'Daemon stopped without error');
 
