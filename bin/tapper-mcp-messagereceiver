@@ -15,25 +15,52 @@ daemonize();
 # initialize logging
 Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
 
-get '/state/:state/(*optional)' => sub {
-        my $self      = shift;
-        my %params    = @{$self->tx->req->url->path->parts || []};
-        my $headers   = $self->req->headers->to_hash;
+=head2 get_params
+
+Analyze params from url and Tapper headers.
+
+@param Mojolicious::Controller object
+
+@return hash - parameters
+
+=cut
+
+sub get_params
+{
+        my ($mojo) = @_;
+        my %params    = @{$mojo->tx->req->url->path->parts || []};
+        my $headers   = $mojo->req->headers->to_hash;
         foreach my $key (keys %{$headers || []}) {
                 if ($key =~ /X-Tapper-(.+)/) {
                         $params{$1} = $headers->{$key};
                 }
         }
+        return %params;
 
+}
+
+get '/state/:state/(*optional)' => sub {
+        my $self      = shift;
+        my %params    = get_params($self); 
         my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
                                                                 type       => 'state',
                                                                 message    => \%params});
-
+        
         $db->insert;
         $self->render(text => '');
 };
 
-# start the Mojolicious command system
+get '/action/:action/(*optional)' => sub {
+        my $self      = shift;
+        my %params    = get_params($self);
+        my $db = model('TestrunDB')->resultset('Message')->new({type       => 'action',
+                                                                message    => \%params});
+        
+        $db->insert;
+        $self->render(text => '');
+};
+  
+  # start the Mojolicious command system
 my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
 app->secret('Tapper::MCP::MessageReceiver');
 if (@ARGV) {
