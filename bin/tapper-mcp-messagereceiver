@@ -50,7 +50,7 @@ get '/state/:state/(*optional)' => sub {
         $self->render(text => '');
 };
 
-get '/action/:action/(*optional)' => sub {
+get '/action/(*optional)' => sub {
         my $self      = shift;
         my %params    = get_params($self);
         my $db = model('TestrunDB')->resultset('Message')->new({type       => 'action',
