@@ -1,0 +1,18 @@
+#!/usr/bin/env perl
+
+use Mojo::Server::Hypnotoad;
+
+use File::Temp qw/ tempdir /;
+use Tapper::Config;
+
+my $dir = tempdir( CLEANUP => 1 );
+my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
+
+open my $fh, ">", "$dir/tapper-mcp-messagereceiver.conf" or die "Can not create config file $dir/tapper-mcp-messagereceiver.conf: $!";
+print $fh "{listen => ['http://*:$port'], workers => 10};";
+close $fh;
+
+
+my $toad = Mojo::Server::Hypnotoad->new;
+$toad->run("bin/tapper-mcp-messagereceiver", "$dir/tapper-mcp-messagereceiver.conf");
+print $$;
