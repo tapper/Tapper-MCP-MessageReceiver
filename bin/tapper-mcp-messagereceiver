@@ -10,6 +10,8 @@ use 5.010;
 # go into background
 use App::Daemon qw( daemonize );
 $App::Daemon::as_user    = "root";
+$App::Daemon::logfile = "/var/log/tapper-mcp-messagereceiver-daemon.log";
+$App::Daemon::pidfile = "/tmp/tapper-mcp-messagereceiver-daemon.pid";
 daemonize();
 
 # initialize logging
