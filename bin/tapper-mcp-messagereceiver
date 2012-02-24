@@ -61,6 +61,19 @@ get '/action/(*optional)' => sub {
         $db->insert;
         $self->render(text => '');
 };
+
+
+get '/getstate/:testrun_id/' => sub {
+        my $self      = shift;
+        my $db = model('TestrunDB')->resultset('State')->find({testrun_id => $self->param('testrun_id')});
+        if ($db) {
+                $self->render(text => $db->get_column('state'));
+        } else {
+                $self->render(text => '');
+        }
+};
+
+
   
   # start the Mojolicious command system
 my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
