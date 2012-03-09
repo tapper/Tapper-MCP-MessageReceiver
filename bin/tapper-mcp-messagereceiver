@@ -67,7 +67,7 @@ get '/getstate/:testrun_id/' => sub {
         my $self      = shift;
         my $db = model('TestrunDB')->resultset('State')->find({testrun_id => $self->param('testrun_id')});
         if ($db) {
-                $self->render(text => $db->get_column('state'));
+                $self->render(text => ($db->get_column('state') // ''));
         } else {
                 $self->render(text => '');
         }
