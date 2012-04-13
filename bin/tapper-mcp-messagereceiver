@@ -11,8 +11,8 @@ use 5.010;
 # go into background
 use App::Daemon qw( daemonize );
 $App::Daemon::as_user    = "root";
-$App::Daemon::logfile = $ENV{HARNESS_ACTIVE} ? tmpdir()."/tapper-mcp-messagereceiver-daemon.log" : "/var/log/tapper-mcp-messagereceiver-daemon.log";
-$App::Daemon::pidfile = tmpdir()."/tapper-mcp-messagereceiver-daemon.pid";
+$App::Daemon::logfile = $ENV{HARNESS_ACTIVE} ? '/tmp/tapper-mcp-messagereceiver-daemon.log' : "/var/log/tapper-mcp-messagereceiver-daemon.log";
+$App::Daemon::pidfile = "/tmp/tapper-mcp-messagereceiver-daemon.pid";
 daemonize();
 
 # initialize logging
@@ -48,7 +48,8 @@ get '/state/:state/(*optional)' => sub {
         my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
                                                                 type       => 'state',
                                                                 message    => \%params});
-        
+        my $log = Log::Log4perl->get_logger('Tapper.MCP.MessageReceiver.state');
+        $log->debug("Message: ".$self->tx->req->url->path );
         $db->insert;
         $self->render(text => '');
 };
@@ -58,10 +59,26 @@ get '/action/(*optional)' => sub {
         my %params    = get_params($self);
         my $db = model('TestrunDB')->resultset('Message')->new({type       => 'action',
                                                                 message    => \%params});
-        
+        my $log = Log::Log4perl->get_logger('Tapper.MCP.MessageReceiver.action');
+        $log->debug("Message: ".$self->tx->req->url->path );
         $db->insert;
         $self->render(text => '');
 };
+
+
+get '/getstate/:testrun_id/' => sub {
+        my $self      = shift;
+        my $log = Log::Log4perl->get_logger('Tapper.MCP.MessageReceiver.getstate');
+        $log->debug("Message: ".$self->tx->req->url->path );
+        my $db = model('TestrunDB')->resultset('State')->find({testrun_id => $self->param('testrun_id')});
+        if ($db) {
+                $self->render(text => ($db->get_column('state') // ''));
+        } else {
+                $self->render(text => '');
+        }
+};
+
+
   
   # start the Mojolicious command system
 my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
