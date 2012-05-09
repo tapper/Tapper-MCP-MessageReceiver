@@ -1,4 +1,6 @@
 #! /usr/bin/perl
+# PODNAME: tapper-client
+# ABSTRACT: cmdline frontend Tapper::MCP::MessageReceiver
 
 # Using Mojolicious::Lite will enable "strict" and "warnings"
 use Mojolicious::Lite;
