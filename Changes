@@ -1,6 +1,13 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - [FEAT] offer access to current testrun state
+        - [FEAT] handle 'action' requests
+        - [FEAT] accept data also as X-Tapper-$key HTTP header
+        - [FEAT] added type handling for messages
+        - [FEAT] added experimental message receiver using hypnotoad server
+        - [FEAT] message receiver uses HTTP protocol now
+        - [RFK] migrate from AnyEvent to Mojo
         - big Dist::Zilla roundhouse kick
 
 2011-04-07  Steffen Schwigon  <steffen.schwigon@amd.com>
