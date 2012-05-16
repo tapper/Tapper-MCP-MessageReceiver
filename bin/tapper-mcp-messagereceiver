@@ -46,7 +46,7 @@ sub get_params
 
 get '/state/:state/(*optional)' => sub {
         my $self      = shift;
-        my %params    = get_params($self); 
+        my %params    = get_params($self);
         my $db = model('TestrunDB')->resultset('Message')->new({testrun_id => $params{testrun_id},
                                                                 type       => 'state',
                                                                 message    => \%params});
@@ -81,7 +81,7 @@ get '/getstate/:testrun_id/' => sub {
 };
 
 
-  
+
   # start the Mojolicious command system
 my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
 app->secret('Tapper::MCP::MessageReceiver');
