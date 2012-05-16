@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+4.0.1     2012-05-16
         - [FEAT] offer access to current testrun state
         - [FEAT] handle 'action' requests
         - [FEAT] accept data also as X-Tapper-$key HTTP header
