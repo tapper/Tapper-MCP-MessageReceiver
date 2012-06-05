@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+4.0.3     2012-06-05
 	- log file handling during test
 
 4.0.2     2012-06-01
