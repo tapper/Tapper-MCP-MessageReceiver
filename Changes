@@ -1,9 +1,10 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+	- log file handling during test
 
 4.0.2     2012-06-01
-	- explicitely upgrade troublemaker deps
+        - explicitely upgrade troublemaker deps
 
 4.0.1     2012-05-16
         - [FEAT] offer access to current testrun state

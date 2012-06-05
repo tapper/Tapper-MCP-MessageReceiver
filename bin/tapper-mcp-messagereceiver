@@ -5,6 +5,7 @@
 # Using Mojolicious::Lite will enable "strict" and "warnings"
 use Mojolicious::Lite;
 use File::Spec::Functions 'tmpdir';
+use File::Temp "tempfile";
 use Tapper::Model 'model';
 use Tapper::Config;
 use Log::Log4perl;
@@ -12,9 +13,10 @@ use 5.010;
 
 # go into background
 use App::Daemon qw( daemonize );
+my ($tmpfh, $tmpfile) = tempfile("tapper-mcp-messagereceiver-daemon.log-XXXXX", UNLINK => 1);
 $App::Daemon::as_user    = "root";
-$App::Daemon::logfile = $ENV{HARNESS_ACTIVE} ? tmpdir().'/tapper-mcp-messagereceiver-daemon.log' : "/var/log/tapper-mcp-messagereceiver-daemon.log";
-$App::Daemon::pidfile = "/tmp/tapper-mcp-messagereceiver-daemon.pid";
+$App::Daemon::logfile = $ENV{HARNESS_ACTIVE} ? $tmpfile : "/var/log/tapper-mcp-messagereceiver-daemon.log";
+$App::Daemon::pidfile = tmpdir()."/tapper-mcp-messagereceiver-daemon.pid";
 daemonize();
 
 # initialize logging
