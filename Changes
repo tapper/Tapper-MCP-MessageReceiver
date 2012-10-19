@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        * PostgreSQL support
+        - rename USER into OWNER
 
 4.0.3     2012-06-05
 	- log file handling during test
