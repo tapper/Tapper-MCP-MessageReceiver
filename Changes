@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+4.1.2     2012-11-21
         - undaemonize tapper-mcp-messagereceiver
 
 4.1.1     2012-11-20
