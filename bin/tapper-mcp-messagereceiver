@@ -11,16 +11,17 @@ use Tapper::Config;
 use Log::Log4perl;
 use 5.010;
 
-# go into background
-use App::Daemon qw( daemonize );
-my ($tmpfh, $tmpfile) = tempfile("tapper-mcp-messagereceiver-daemon.log-XXXXX", UNLINK => 1);
-$App::Daemon::as_user    = "root";
-$App::Daemon::logfile = $ENV{HARNESS_ACTIVE} ? $tmpfile : "/var/log/tapper-mcp-messagereceiver-daemon.log";
-$App::Daemon::pidfile = tmpdir()."/tapper-mcp-messagereceiver-daemon.pid";
-daemonize();
-
 # initialize logging
 Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
+
+# # go into background
+# use App::Daemon qw( daemonize );
+# my ($tmpfh, $tmpfile) = tempfile("tapper-mcp-messagereceiver-daemon.log-XXXXX", UNLINK => 1);
+# #$App::Daemon::as_user    = "root";
+# #$App::Daemon::logfile = $ENV{HARNESS_ACTIVE} ? $tmpfile : "/var/log/tapper-mcp-messagereceiver-daemon.log";
+# #$App::Daemon::pidfile = tmpdir()."/tapper-mcp-messagereceiver-daemon.pid";
+# daemonize();
+
 
 =head2 get_params
 
