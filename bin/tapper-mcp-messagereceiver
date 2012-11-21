@@ -5,7 +5,6 @@
 # Using Mojolicious::Lite will enable "strict" and "warnings"
 use Mojolicious::Lite;
 use File::Spec::Functions 'tmpdir';
-use File::Temp "tempfile";
 use Tapper::Model 'model';
 use Tapper::Config;
 use Log::Log4perl;
@@ -13,15 +12,6 @@ use 5.010;
 
 # initialize logging
 Log::Log4perl->init(Tapper::Config->subconfig->{files}{log4perl_cfg});
-
-# # go into background
-# use App::Daemon qw( daemonize );
-# my ($tmpfh, $tmpfile) = tempfile("tapper-mcp-messagereceiver-daemon.log-XXXXX", UNLINK => 1);
-# #$App::Daemon::as_user    = "root";
-# #$App::Daemon::logfile = $ENV{HARNESS_ACTIVE} ? $tmpfile : "/var/log/tapper-mcp-messagereceiver-daemon.log";
-# #$App::Daemon::pidfile = tmpdir()."/tapper-mcp-messagereceiver-daemon.pid";
-# daemonize();
-
 
 =head2 get_params
 
@@ -83,10 +73,15 @@ get '/getstate/:testrun_id/' => sub {
         }
 };
 
+my $port          = Tapper::Config::subconfig->{mcp_port} || 7359;
+my $tapperbasedir = $ENV{HARNESS_ACTIVE} ? "." : (Tapper::Config::subconfig->{paths}{tapperbasedir} || tmpdir());
+my $conffile      = "$tapperbasedir/tapper-mcp-messagereceiver.conf";
+plugin Config => {
+                  file => $conffile,
+                  default => {}, # default entry makes external configfile optional
+                 };
 
-
-  # start the Mojolicious command system
-my $port = Tapper::Config::subconfig->{mcp_port} || 7359;
+# start the Mojolicious command system
 app->secret('Tapper::MCP::MessageReceiver');
 if (@ARGV) {
         app->start;

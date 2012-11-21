@@ -1,0 +1,17 @@
+#! /usr/bin/perl
+# PODNAME: tapper-mcp-messagereceiver-daemon (hypnotoad)
+# ABSTRACT: daemon for Tapper::MCP::MessageReceiver
+
+(my $msgreceiver = $0) =~ s!/tapper-mcp-messagereceiver-daemon!/tapper-mcp-messagereceiver!;
+(my $hypnotoad   = $^X) =~ s!/perl[\d.]*$!/hypnotoad!;
+
+use 5.010;
+use strict;
+use warnings;
+
+if ($ARGV[0] eq 'start') {
+        system($hypnotoad, $msgreceiver);
+}
+elsif ($ARGV[0] eq 'stop') {
+        system($hypnotoad, '--stop', $msgreceiver);
+}
