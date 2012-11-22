@@ -78,7 +78,12 @@ my $tapperbasedir = $ENV{HARNESS_ACTIVE} ? "." : (Tapper::Config::subconfig->{pa
 my $conffile      = "$tapperbasedir/tapper-mcp-messagereceiver.conf";
 plugin Config => {
                   file => $conffile,
-                  default => {}, # default entry makes external configfile optional
+                  # default entry makes external configfile optional
+                  default => {
+                              hypnotoad => {
+                                            listen => ["http://*:1337"],
+                                           },
+                             },
                  };
 
 # start the Mojolicious command system
