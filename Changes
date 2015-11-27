@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - fix usage of Mojolicious ->secret(s)
 
 4.1.3     2012-11-22
         - provide 'tapper-mcp-messagereceiver-daemon start|stop'
