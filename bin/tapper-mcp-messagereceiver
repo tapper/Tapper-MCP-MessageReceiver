@@ -87,7 +87,7 @@ plugin Config => {
                  };
 
 # start the Mojolicious command system
-app->secret('Tapper::MCP::MessageReceiver');
+app->secrets(['Tapper::MCP::MessageReceiver']);
 if (@ARGV) {
         app->start;
 } else {
