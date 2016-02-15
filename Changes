@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - version bump for v5
 
 4.1.4     2015-11-27
         - fix usage of Mojolicious ->secret(s)
