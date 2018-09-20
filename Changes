@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - updated to latest Mojolicious route syntax
 
 5.0.0     2016-02-15
         - version bump for v5
